@@ -2,6 +2,7 @@ package com.e_commerce.Application.Controller;
 
 import com.e_commerce.Application.Entity.Product;
 import com.e_commerce.Application.Entity.User;
+import com.e_commerce.Application.Enum.Category;
 import com.e_commerce.Application.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,18 @@ public class ProductController {
         Product product1 = productService.AddProducts(product);
         return new ResponseEntity<>(product1,HttpStatus.CREATED);
     }
-    @GetMapping("max-price")
-    public ResponseEntity<Product> getMaxPricedProduct(@RequestParam String category) {
-        System.out.println("Fetching max-priced product for category: " + category);
+    @GetMapping("/max-price")
+    public ResponseEntity<Product> getMaxPricedProduct(@RequestParam Category category) {
+
         Product product = productService.getMaxPricedProductForCategory(category);
+
+        if (product == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
     @GetMapping("/most-ordered")
     public ResponseEntity<Product> getMostOrderedProduct() {
         Product product = productService.findMostOrderedProduct();
