@@ -3,6 +3,7 @@ package com.e_commerce.Application.Controller;
 import com.e_commerce.Application.Entity.Product;
 import com.e_commerce.Application.Entity.User;
 import com.e_commerce.Application.Enum.Category;
+import com.e_commerce.Application.Service.OrderService;
 import com.e_commerce.Application.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,17 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private OrderService orderService;
     @PostMapping("addProduct")
     public ResponseEntity<Product> AddProduct(@RequestBody Product product){
         Product product1 = productService.AddProducts(product);
         return new ResponseEntity<>(product1,HttpStatus.CREATED);
+    }
+    @PostMapping("addProductToOrder")
+    public ResponseEntity<Void> AddProductToOrder(@RequestParam Long orderId,@RequestParam Long productId){
+        orderService.AddProductToOrder(orderId,productId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/max-price")
     public ResponseEntity<Product> getMaxPricedProduct(@RequestParam Category category) {

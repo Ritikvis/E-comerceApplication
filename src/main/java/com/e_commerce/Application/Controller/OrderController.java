@@ -21,10 +21,6 @@ public class OrderController {
         Order order = orderService.createOrderForProductsStartingWithA(userId, paymentMode);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
-    @PostMapping("addProductToOrder")
-    public ResponseEntity<Void> AddProductToOrder(@RequestParam Long orderId,@RequestParam Long productId){
-        orderService.AddProductToOrder(orderId,productId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+
 
 }

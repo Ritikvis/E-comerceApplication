@@ -15,17 +15,15 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-    @PostMapping("addUser")
-    public ResponseEntity<User> AddUser(@RequestBody User user){
-        User user1 = userService.AddUser(user);
-        return new ResponseEntity<>(user1, HttpStatus.CREATED);
-    }
-    @PostMapping("addOrderToUser")
-    public ResponseEntity<Void>  addOrderToUser(@RequestParam Long userId,@RequestParam Long orderId){
-        List<Order> orders = userService.addOrderToUser(userId,orderId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/addUserWithOrder")
+    public ResponseEntity<User> addUserWithOrder(
+            @RequestBody User user,
+            @RequestParam(required = false) Long orderId) {
 
+        User savedUser = userService.addUserWithOrder(user, orderId);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
+
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<Order>> getAllOrdersForUser(@PathVariable Long userId) {
         List<Order> orders = userService.getAllOrdersByUserId(userId);

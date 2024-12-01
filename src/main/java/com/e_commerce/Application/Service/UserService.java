@@ -18,20 +18,30 @@ public class UserService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public User AddUser(User user) {
-        return userRepository.save(user);
+    public User addUserWithOrder(User user, Long orderId) {
+        // Save or update the user
+        User savedUser = userRepository.save(user);
+
+        // If an order ID is provided, link the order to the user
+        if (orderId != null) {
+            Order order = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
+
+            List<Order> orders = savedUser.getOrders();
+            if (orders == null) {
+                orders = new ArrayList<>();
+                savedUser.setOrders(orders);
+            }
+
+            orders.add(order);
+            userRepository.save(savedUser); // Save the updated user with the linked order
+        }
+
+        return savedUser;
     }
 
-    public List<Order> addOrderToUser(Long userId, Long orderId) {
-        Order orders  = orderRepository.findById(orderId)
-                .orElseThrow(()->new RuntimeException("Id not found :"+orderId));
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new RuntimeException("Id not found : "+ userId));
-        user.getOrders().add(orders);
-        userRepository.save(user);
-        return user.getOrders();
 
-    }
+
 
 
     public List<Order> getAllOrdersByUserId(Long userId) {
