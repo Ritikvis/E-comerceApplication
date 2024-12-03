@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("Order")
 public class OrderController {
     @Autowired
+
+
+//   http://localhost:8080/Order/addOrder?userId=2&paymentMode=PAYPAL
     private OrderService orderService;
     @PostMapping("addOrder")
     public ResponseEntity<Order> createOrderForAProducts(

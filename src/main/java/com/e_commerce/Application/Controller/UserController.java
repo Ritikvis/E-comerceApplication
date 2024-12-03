@@ -15,6 +15,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+
+//  http://localhost:8080/User/addUserWithOrder?orderId=4
     @PostMapping("/addUserWithOrder")
     public ResponseEntity<User> addUserWithOrder(
             @RequestBody User user,
@@ -23,7 +26,7 @@ public class UserController {
         User savedUser = userService.addUserWithOrder(user, orderId);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
-
+//  http://localhost:8080/User/1/orders
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<Order>> getAllOrdersForUser(@PathVariable Long userId) {
         List<Order> orders = userService.getAllOrdersByUserId(userId);

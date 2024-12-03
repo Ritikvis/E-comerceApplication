@@ -17,16 +17,23 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private OrderService orderService;
+
+//    http://localhost:8080/Product/addProduct
     @PostMapping("addProduct")
     public ResponseEntity<Product> AddProduct(@RequestBody Product product){
         Product product1 = productService.AddProducts(product);
         return new ResponseEntity<>(product1,HttpStatus.CREATED);
     }
+
+
+//    http://localhost:8080/Order/addProductToOrder?orderId=2&productId=15
     @PostMapping("addProductToOrder")
     public ResponseEntity<Void> AddProductToOrder(@RequestParam Long orderId,@RequestParam Long productId){
         orderService.AddProductToOrder(orderId,productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+//    http://localhost:8080/Product/max-price?category=ELECTRONICS
     @GetMapping("/max-price")
     public ResponseEntity<Product> getMaxPricedProduct(@RequestParam Category category) {
 
