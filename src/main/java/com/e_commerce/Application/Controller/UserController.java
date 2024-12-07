@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
+// first add the user then product then order
 
 //  http://localhost:8080/User/addUserWithOrder?orderId=4
     @PostMapping("/addUserWithOrder")
